@@ -1,15 +1,14 @@
 # frozen_string_literal: false
 
-module CodePraise
+module DrinkKing
   # Value Module
   module Value
-    def self.recommend_drink(sorted_review)
-      loop do
-        great_review = sorted_review.pop
-        return great_review.mention_drink unless great_review.mention_drink == '沒推薦'
-        break if great_review.rating == 2
+    def self.recommend_drink(sorted_reviews)
+      sorted_reviews.map do |sorted_review|
+        return 'no recommend' if sorted_review.rating <= 2
+        mention_drink_in_review = sorted_review.mention_drink
+        return mention_drink_in_review unless mention_drink_in_review == 'not mentioned'
       end
-      '沒推薦'
     end
   end
 end

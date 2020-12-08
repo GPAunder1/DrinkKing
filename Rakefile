@@ -6,9 +6,16 @@ task :default do
   puts `rake -T`
 end
 
-desc 'Run tests once'
+desc 'Run unit and integration tests'
 Rake::TestTask.new(:spec) do |t|
-  t.pattern = 'spec/*_spec.rb'
+  t.pattern = 'spec/**/*_spec.rb'
+  t.warning = false
+end
+
+# NOTE: run `rake run:test` in another process
+desc 'Run acceptance tests'
+Rake::TestTask.new(:spec_accept) do |t|
+  t.pattern = 'spec/tests_acceptance/*_acceptance.rb'
   t.warning = false
 end
 
@@ -17,13 +24,23 @@ task :rerack do
   sh "rerun -c rackup --ignore 'coverage/*'"
 end
 
+namespace :run do
+  task :dev do
+    sh 'rerun -c "rackup -p 9292"'
+  end
+
+  task :test do
+    sh 'RACK_ENV=test rackup -p 9000'
+  end
+end
+
 namespace :db do
   task :config do
     require 'sequel'
     require_relative 'config/environment' # load config info
 
     def app
-      CodePraise::App
+      DrinkKing::App
     end
   end
 
@@ -48,8 +65,8 @@ namespace :db do
       return
     end
 
-    FileUtils.rm(CodePraise::App.config.DB_FILENAME)
-    puts "Deleted #{CodePraise::App.config.DB_FILENAME}"
+    FileUtils.rm(DrinkKing::App.config.DB_FILENAME)
+    puts "Deleted #{DrinkKing::App.config.DB_FILENAME}"
   end
 end
 
