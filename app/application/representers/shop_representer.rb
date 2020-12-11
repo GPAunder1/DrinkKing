@@ -20,10 +20,9 @@ module DrinkKing
       property :map_url
       property :opening_now
       property :rating
-      # property :recommend_drink
-      # property :menu, extend: Representer::Menu, class: OpenStruct
-      collection :reviews, extend:Representer::Review, class: OpenStruct
-
+      property :recommend_drink
+      property :menu, extend: Representer::Menu, class: OpenStruct
+      collection :reviews, extend: Representer::Review, class: OpenStruct
     end
   end
 end

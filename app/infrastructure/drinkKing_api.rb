@@ -4,6 +4,7 @@ require 'http'
 
 module DrinkKing
   module Gateway
+    # Api 
     class Api
       def initialize(config)
         @config = config
@@ -22,6 +23,13 @@ module DrinkKing
         @request.add_shops(shopname)
       end
 
+      def recommend_drink(shop_id)
+        @request.recommend_drink(shop_id)
+      end
+
+      def shop_menu(shopname)
+        @request.shop_menu(shopname)
+      end
       # HTTP request transmitter
       class Request
         def initialize(config)
@@ -38,7 +46,15 @@ module DrinkKing
         end
 
         def add_shops(shopname)
-          call_api('post', ['shops',shopname])
+          call_api('post', ['shops', shopname])
+        end
+
+        def recommend_drink(shop_id)
+          call_api('get', ['extractions', shop_id])
+        end
+
+        def shop_menu(shopname)
+          call_api('get', ['menus'], { 'keyword' => shopname, 'searchby' => 'shop' })
         end
 
         private
