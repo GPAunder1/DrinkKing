@@ -8,36 +8,22 @@ module DrinkKing
     class ProcessShops
       include Dry::Transaction
 
-      step :get_shops_from_database
-      step :get_menu
-      step :get_recommend_drink
+      step :api_shoplist
+      step :reify_list
 
-      def get_shops_from_database(input)
-        input[:shops] = Repository::For.klass(Entity::Shop).find_shop(input[:search_keyword])
+      private
 
-        input[:shops][0].nil? ? Failure('No shop is found!') : Success(input)
+      def api_shoplist(input)
+        DrinkKing::Gateway::Api.new(App.config).list_shops(input[:search_keyword])
+          .then do |result|
+            result.success? ? Success(result.payload) : Failure(result.message)
+          end
+      end
+
+      def reify_list(shoplist_json)
+        Success(Representer::ShopsList.new(shoplist_json).to_json)
       rescue StandardError
-        Failure('Having trouble accessing the database')
-      end
-
-      def get_menu(input)
-        file = File.read('./app/domain/extraction/values/drinks.json')
-        input[:menu] = JSON.parse(file)['drinks']
-
-        input[:menu] == 'null' ? Failure('No menu is found') : Success(input)
-      end
-
-      def get_recommend_drink(input)
-        input[:recommend_drinks] = []
-        input[:shops].map do |shop|
-          recommend_drink = Mapper::ReviewsExtractionMapper.find_by_shopname(shop.name).recommend_drink
-          input[:recommend_drinks] << recommend_drink
-        end
-
-        Success(input)
-      rescue StandardError => e
-        puts e.to_s
-        Failure('Error with getting recommend drink')
+        Failure('Could not parse response from API')
       end
     end
   end

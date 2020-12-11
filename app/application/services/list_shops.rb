@@ -1,19 +1,33 @@
 # frozen_string_literal: true
 
-require 'dry/monads'
+require 'dry/transaction'
 
 module DrinkKing
   module Service
-    # Retrieves array of all listed shop entities
+    # Transaction to process shops(extract shop reviews to get recommend drink, get menu)
     class ListShops
-      include Dry::Monads::Result::Mixin
+      include Dry::Transaction
 
-      def call(search_word)
-        shops = Repository::For.klass(Entity::Shop).find_many_shops(search_word)
+      step :api_shoplist
+      step :reify_list
 
-        Success(shops)
-      rescue StandardError
-        Failure('Having trouble accessing the database')
+      private
+
+      def api_shoplist(input)
+
+        DrinkKing::Gateway::Api.new(App.config).list_shops(input[:search_keyword])
+          .then do |result|
+            result.success? ? Success(result.payload) : Failure(result.message)
+          end
+      end
+
+      def reify_list(shoplist_json)
+        Representer::ShopsList.new(OpenStruct.new)
+        .from_json(shoplist_json)
+        .then { |shop| Success(shop) }
+      rescue StandardError => e
+        puts e.to_s
+        Failure('Error in the project -- please try again')
       end
     end
   end
