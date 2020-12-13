@@ -20,7 +20,7 @@ describe 'ListShops Service and API gateway Integration Test' do
 
   # it '(BAD) should report error if no shop is found' do
   #   # WHEN: user goes to the shop map page that has no shop found
-  #   shops_made = DrinkKing::Service::ProcessShops.new.call(search_keyword: GARBLE)
+  #   shops_made = DrinkKing::Service::ListShops.new.call(search_keyword: GARBLE)
   #
   #   # THEN: they should get error messege
   #   _(shops_made.failure).must_equal 'No shop is found!'

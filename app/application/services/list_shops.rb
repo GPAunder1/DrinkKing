@@ -27,7 +27,6 @@ module DrinkKing
         input['shops'].map do |shop|
           drink = DrinkKing::Gateway::Api.new(App.config).recommend_drink(shop['placeid'])
           menu = DrinkKing::Gateway::Api.new(App.config).shop_menu(shop['name'])
-          # puts "-----#{menu}"
           shop['recommend_drink'] = JSON.parse(drink.payload)
           shop['menu'] = JSON.parse(menu.payload)[0]
         end
@@ -39,8 +38,8 @@ module DrinkKing
                               .from_json(shoplist_json)
                               .then { |shop| Success(shop) }
       rescue StandardError => e
-        puts e.to_s
-        Failure('Error in the project -- please try again')
+        # puts e.to_s
+        Failure('Error in list shops -- please try again')
       end
     end
   end

@@ -4,7 +4,7 @@ require 'http'
 
 module DrinkKing
   module Gateway
-    # Api 
+    # Api
     class Api
       def initialize(config)
         @config = config
@@ -86,7 +86,7 @@ module DrinkKing
         end
 
         def message
-          payload['message']
+          JSON.parse(payload)['message']
         end
 
         def payload
