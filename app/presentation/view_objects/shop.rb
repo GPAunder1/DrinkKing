@@ -3,10 +3,8 @@
 module Views
   # View for shop and shop extractions(recommend drink, menu) for a given shop
   class Shop
-    def initialize(shop, recommend_drink = nil, menu = nil)
+    def initialize(shop)
       @shop = shop
-      @recommend_drink = recommend_drink
-      @menu = menu
     end
 
     def entity
@@ -50,18 +48,29 @@ module Views
     end
 
     def recommend_drink
-      @recommend_drink
+      @shop.recommend_drink
     end
 
     def menu
-      @menu
+      @shop.menu.drinks
     end
 
-    def json_format_to_js
-      format_shop = @shop.to_h
-      format_shop[:recommend_drink] = @recommend_drink
-      format_shop[:menu] = @menu
-      format_shop.to_json
+    def format_to_json
+      @shop.menu = @shop.menu.drinks
+      openstruct_to_hash(@shop).to_json
+    end
+
+    def openstruct_to_hash(object, hash = {})
+      object.each_pair do |key, value|
+        if value.is_a? OpenStruct
+          hash[key] = openstruct_to_hash(value)
+        elsif value.is_a? Array
+          hash[key] = value.map { |v| openstruct_to_hash(v) }
+        else
+          hash[key] = value
+        end
+      end
+      hash
     end
   end
 end

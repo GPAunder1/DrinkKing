@@ -8,42 +8,37 @@ module DrinkKing
     class AddShops
       include Dry::Transaction
 
-      step :check_input_validation
-      step :find_shops
-      step :store_shops
+      step :api_add_shoplist
+      step :decorate_shoplist
+      step :reify_list
 
       private
 
-      def check_input_validation(input)
-        if input.success?
-          Success(input)
-        else
-          Failure(input.errors.messages.first.text)
+      def api_add_shoplist(input)
+        DrinkKing::Gateway::Api.new(App.config).add_shops(input[:search_keyword])
+            .then do |result|
+              result.success? ? Success(result.payload) : Failure(result.message)
+            end
+      rescue StandardError
+        Failure('Cannot add projects right now; please try again later')
+      end
+
+      def decorate_shoplist(input)
+        input = JSON.parse(input)
+        input['shops'].map do |shop|
+          shop['recommend_drink'] = nil
+          shop['menu'] = nil
         end
+        Success(input.to_json)
       end
 
-      def find_shops(input)
-        shops = shop_from_googlemap(input)
-        Success(shops)
-      rescue StandardError => error
-        Failure(error.to_s)
-      end
-
-      def store_shops(input)
-        shops = input.map { |shop| Repository::For.entity(shop).find_or_create(shop) }
-        Success(shops)
-      rescue StandardError => error
-        Failure('Having trouble accessing the database')
-      end
-
-      # following are support methods that other services could use
-      def shop_from_googlemap(input)
-        response = Googlemap::ShopMapper.new(App.config.API_TOKEN).find(input[:search_keyword])
-        if response.is_a? String
-          Failure('Error with Gmap API: ' + response)
-        else
-          response
-        end
+      def reify_list(shoplist_json)
+        Representer::ShopsList.new(OpenStruct.new)
+                              .from_json(shoplist_json)
+                              .then { |shop| Success(shop) }
+      rescue StandardError => e
+        puts e.to_s
+        Failure('Error in the project -- please try again')
       end
     end
   end

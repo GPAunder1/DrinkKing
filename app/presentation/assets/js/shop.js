@@ -73,10 +73,9 @@ function make_menu_info(menu){
 
   menu.forEach((drink, i) => {
     var output = '<tr>' +
-                 '<td>' + drink.name + '</td>' +
-                 '<td>' + drink.category + '</td>' +
-                 '<td>' + drink.price.M + '</td>' +
-                 '<td>' + drink.price.L + '</td>' +
+                 '<td>' + drink.name + '<br/>' + drink.english_name + '</td>' +
+                 // '<td>' + drink.english_name + '</td>' +
+                 '<td>' + drink.price + '</td>' +
                  '</tr>';
 
     $('#menu_info').append(output);

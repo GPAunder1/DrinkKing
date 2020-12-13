@@ -24,7 +24,7 @@ function initmap(){
 
 function create_marker(shop){
     shop = json_formatter(shop);
-
+    // console.log(shop);
     const icon = {
       url: "https://www.flaticon.com/svg/static/icons/svg/3106/3106180.svg",
       scaledSize: new google.maps.Size(30, 30),

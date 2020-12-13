@@ -3,7 +3,7 @@
 # Page object for home page
 class ShopPage
   include PageObject
-  page_url DrinkKing::App.config.APP_HOST + '/shop/<%=params[:keyword]>'
+  page_url DrinkKing::App.config.APP_HOST + '/shop/params[:keyword]'
 
   div(:warning_message, id: 'flash_bar_danger')
   div(:success_message, id: 'flash_bar_success')
@@ -19,7 +19,7 @@ class ShopPage
   row(:shoplist_first_shop_reviews, id:'shoplist_reviews_1')
 
   # elements related to shop map
-  image(:marker_on_map, src: MARKER_URL, index: 1)
+  image(:marker_on_map, src: MARKER_URL, index: 0)
   div(:toast_window, id:'toast')
   div(:menu_panel, id:'menu_panel')
   div(:review_panel, id:'review_panel')

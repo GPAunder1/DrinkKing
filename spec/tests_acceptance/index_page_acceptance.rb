@@ -5,10 +5,10 @@ require_relative 'pages/index_page'
 
 describe 'Homepage Acceptance Tests' do
   include PageObject::PageFactory
-  DatabaseHelper.setup_database_cleaner
+  # DatabaseHelper.setup_database_cleaner
 
   before do
-    DatabaseHelper.wipe_database
+    # DatabaseHelper.wipe_database
     # @headless = Headless.new
     @browser = Watir::Browser.new
   end

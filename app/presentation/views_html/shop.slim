@@ -6,7 +6,7 @@
     .col id="map"
     - shops.each do |shop|
       javascript:
-        setTimeout(function(){ create_marker("#{shop.json_format_to_js}")}, 1000);
+        setTimeout(function(){ create_marker("#{shop.format_to_json}")}, 1000);
 
     div.toast id="toast" data-autohide="false"
       .toast-header
@@ -47,9 +47,7 @@
             thead
               tr
                 th Drink
-                th Category
-                th M
-                th L
+                th Price
             tbody id="menu_info"
 
       div.container.bg-light id="review_panel"
