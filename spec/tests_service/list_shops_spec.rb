@@ -13,7 +13,7 @@ describe 'ListShops Service and API gateway Integration Test' do
 
     # THEN: we should see shops in the list
     _(result.success?).must_equal true
-    shop = result.value!.shops[0]
+    shop = result.value!['shops'].shops[0]
     _(shop.name).must_equal KEYWORD
     _(shop.name).must_include shop.menu.shopname
   end

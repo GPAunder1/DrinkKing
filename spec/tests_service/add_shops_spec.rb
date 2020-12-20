@@ -20,9 +20,9 @@ describe 'AddShops Service and API gateway integration Test' do
 
     # WHEN: the service is called with the request form object
     shops_made = DrinkKing::Service::AddShops.new.call(search_keyword: GARBLE)
-    puts shops_made
+
     # THEN: the result should be failure and get error message
-    # _(shops_made.success?).must_equal false
-    # _(shops_made.failure).must_equal 'Please enter keyword related to drink'
+    _(shops_made.success?).must_equal false
+    _(shops_made.failure).must_equal 'Please enter keyword related to drink'
   end
 end
