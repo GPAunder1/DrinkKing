@@ -58,8 +58,14 @@ module DrinkKing
               flash[:error] = result.failure
               routing.redirect '/'
             else
-              shops = result.value!.shops
-              # shops.each { |shop| puts shop.name }
+              result = result.value!
+              if result['response'].processing?
+                flash[:notice] = result['response'].message
+                routing.redirect '/'
+              end
+
+              shops = result['shops'].shops
+
               display_shops = Views::ShopsList.new(shops)
             end
 
