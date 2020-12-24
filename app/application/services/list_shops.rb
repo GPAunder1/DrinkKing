@@ -38,9 +38,7 @@ module DrinkKing
           return Failure(result.message) if result.failure?
 
           input['response'] = result
-          return Success(input) if result.processing?
-
-          shop['recommend_drink'] = JSON.parse(result.payload)
+          shop['recommend_drink'] = JSON.parse(result.payload) unless result.processing?
         end
 
         Success(input)

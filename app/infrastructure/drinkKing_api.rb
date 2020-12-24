@@ -60,14 +60,14 @@ module DrinkKing
         private
 
         def params_str(params)
-          params.map { |key, value| "#{key}=#{value}" }.join('&')
+          params.map { |key, value| "#{key}=#{CGI.escape(value)}" }.join('&')
             .then { |str| str ? '?' + str : '' }
         end
 
         def call_api(method, resources = [], params = {})
           api_path = resources.empty? ? @api_host : @api_root
           url = [api_path, resources].join('/') + params_str(params)
-          puts "url:#{url}"
+          puts "url:#{CGI.unescape(url)}"
           HTTP.headers('Accept' => 'application/json').send(method, url)
           .then { |http_response| Response.new(http_response) }
         rescue StandardError
