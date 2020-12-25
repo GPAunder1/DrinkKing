@@ -16,5 +16,6 @@
     .card-header 搜尋紀錄
     .card-body id='search_record_card_body'
       - records.each.with_index do |record, index|
-          div id="record_#{index}" #{record}
+          div id="record_#{index}"
+            a style="color:white" href='./shop/#{record}' #{record}
     end
