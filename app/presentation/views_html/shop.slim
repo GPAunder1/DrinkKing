@@ -1,7 +1,26 @@
 - if processing.in_progress?
+  h1 id="error_message"
   .container.d-flex
     .row.justify-content-center.align-self-center.mx-auto
       img src="/loading.gif" /
+  script src = "#{processing.ws_javascript}"
+  javascript:
+    var channel = "#{processing.ws_channel_id}";
+    var client = new Faye.Client("#{processing.ws_route}");
+    client.subscribe('/' + channel, function(message) {
+      if (isNaN(message)) {
+        $('#error_message').text(message);
+      }
+      else{
+        // Reload page at 100%
+        if (message == "100") {
+          setTimeout(function () {
+            window.location = window.location.href
+          }, 1000);
+        }
+      }
+    });
+
 - else
   .container
     .row
