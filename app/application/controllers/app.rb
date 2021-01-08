@@ -57,20 +57,22 @@ module DrinkKing
             if result.failure?
               flash[:error] = result.failure
               routing.redirect '/'
+            end
+
+            result = result.value!
+            if result['response'].processing?
+              # flash[:notice] = result['response'].message.to_s # request_id
+              # routing.redirect '/' # comment when done
             else
-              result = result.value!
-              if result['response'].processing?
-                flash[:notice] = result['response'].message
-                routing.redirect '/'
-              end
-
               shops = result['shops'].shops
-
               display_shops = Views::ShopsList.new(shops)
             end
 
+            processing = Views::ExtractionProcessing.new(
+              App.config, result['response']
+            )
 
-            view 'shop', locals: { shops: display_shops }
+            view 'shop', locals: { shops: display_shops, processing: processing }
           end
         end
       end
