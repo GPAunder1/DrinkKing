@@ -10,7 +10,7 @@ module DrinkKing
     plugin :all_verbs # allows DELETE and other HTTP verbs beyond GET/POST
     plugin :render, engine: 'slim', views: 'app/presentation/views_html/'
     plugin :assets, path: 'app/presentation/assets/',
-                    css: 'style.css', js: ['map.js', 'shop.js']
+                    css: 'style.css', js: ['location.js', 'map.js', 'shop.js']
     plugin :halt
     plugin :unescape_path # decodes a URL-encoded path before routing
 

@@ -1,8 +1,14 @@
 navigator.geolocation.getCurrentPosition(function(position) {
-  do_something(position.coords.latitude, position.coords.longitude);
+  set_submit_form(position.coords.latitude, position.coords.longitude);
 });
 
-function do_something(latitude,longitude){
-  console.log("latitude:",latitude)
-  console.log("longitude",longitude)
+function set_submit_form(latitude,longitude){
+  LONGITUDE = longitude;
+  LATITUDE = latitude;
+
+  $("input[name='latitude']").val(latitude);
+  $("input[name='longitude']").val(longitude);
+
+  console.log(latitude);
+  console.log(longitude);
 }
