@@ -47,6 +47,10 @@ module Views
       @shop.reviews.map { |review| Review.new(review) }
     end
 
+    def fb_url
+      @shop.menu.fb_url
+    end
+
     def recommend_drink
       @shop.recommend_drink
     end
@@ -56,7 +60,9 @@ module Views
     end
 
     def format_to_json
+      @shop.fb_url = @shop.menu.fb_url
       @shop.menu = @shop.menu.drinks
+
       openstruct_to_hash(@shop).to_json
     end
 
@@ -67,6 +73,7 @@ module Views
         elsif value.is_a? Array
           hash[key] = value.map { |v| openstruct_to_hash(v) }
         else
+          value.gsub!('"', '“') if value.to_s.include? '"' # avoid javascript error
           hash[key] = value
         end
       end

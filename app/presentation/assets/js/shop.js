@@ -56,16 +56,18 @@ function make_toast_info(shop){
   $('#toast .opening_now').text(shop.opening_now);
   $('#toast .rating').text(shop.rating);
   $('#toast .recommend_drink').text(shop.recommend_drink);
-  $('#toast .promotion').html(get_shop_page(shop.name));
-  // get_shop_page(shop.name);
+  $('#toast .promotion').html(get_shop_page(shop.fb_url));
+
   make_review_info(shop.reviews);
   make_menu_info(shop.menu);
 }
-function get_shop_page(shop_name){
-  // var content="<div class='fb-page' data-href='https://www.facebook.com/NSYSUPhotoClub/' data-tabs='timeline' data-width='200' data-height='400' data-small-header='false' data-adapt-container-width='true' data-hide-cover='false' data-show-facepile='true'><blockquote cite='https://www.facebook.com/NSYSUPhotoClub/' class='fb-xfbml-parse-ignore'><a href='https://www.facebook.com/NSYSUPhotoClub/'>中山大學攝影社　NSYSU PHOTO CLUB</a></blockquote></div>"
-  var content="<div id='fb-root'></div> <script async='1' defer='1' crossorigin='anonymous' src='https://connect.facebook.net/zh_TW/sdk.js#xfbml=1&amp;version=v9.0' nonce='Clfj5AXE'></script><div class='fb-page' data-href='https://www.facebook.com/NSYSUPhotoClub/' data-small-header='true' data-height='295' data-adapt-container-width='1' data-hide-cover='true' data-show-facepile='1' data-show-posts='1'><blockquote cite='https://www.facebook.com/kebuke2008/' class='fb-xfbml-parse-ignore'><a href='https://www.facebook.com/kebuke2008/'>可不可熟成紅茶</a></blockquote></div>"
-  return content
+
+function get_shop_page(fb_url){
+  // var content = `<iframe src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2FNSYSU.MISxCAMP%2F&tabs=timeline&small_header=true&adapt_container_width=true&hide_cover=false&show_facepile=true&appId=4091447374251579" width="100%" height="100%" scrolling="no" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>`
+  var content = `<iframe src="https://www.facebook.com/plugins/page.php?href=${fb_url}&tabs=timeline&small_header=true&adapt_container_width=true&hide_cover=false&show_facepile=true&appId=4091447374251579" width="100%" height="100%" scrolling="no" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>`
+  return content;
 }
+
 function make_review_info(reviews){
   $('#review_info').text("");
 

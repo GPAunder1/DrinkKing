@@ -79,7 +79,7 @@ function create_marker(shop){
 
 // set map center by offset
 function move_center_by_offset(marker){
-  map.setZoom(map.getZoom() + 2);
+  map.setZoom(16);
 
   var span = map.getBounds().toSpan(); // a latLng - # of deg map spans
   var offsetX = 0.20; // move center left by width percent offset
