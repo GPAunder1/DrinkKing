@@ -42,6 +42,11 @@ $(document).ready(function(){
       direction: "right"
     }, 500);
   })
+
+  $('#closebtn').on("click", function(){
+    change_map_zoom_and_center(14);
+  });
+
 });
 
 function make_toast_info(shop){

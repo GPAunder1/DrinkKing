@@ -37,7 +37,14 @@ module DrinkKing
           # POST /shop/
           routing.post do
             search_word = routing.params['drinking_shop']
-            shops_made = Service::AddShops.new.call(search_keyword: search_word)
+            latitude = routing.params['latitude']
+            longitude = routing.params['longitude']
+
+            shops_made = Service::AddShops.new.call(
+                                                    search_keyword: search_word,
+                                                    latitude: latitude,
+                                                    longitude: longitude
+                                                   )
 
             if shops_made.failure?
               flash[:error] = shops_made.failure

@@ -15,12 +15,12 @@ module DrinkKing
       private
 
       def api_add_shoplist(input)
-        DrinkKing::Gateway::Api.new(App.config).add_shops(input[:search_keyword])
+        DrinkKing::Gateway::Api.new(App.config).add_shops(input[:search_keyword], input[:latitude], input[:longitude])
             .then do |result|
               result.success? ? Success(result.payload) : Failure(result.message)
             end
       rescue StandardError
-        Failure('Cannot add projects right now; please try again later')
+        Failure('Cannot search shops right now; please try again later')
       end
 
       def decorate_shoplist(input)
