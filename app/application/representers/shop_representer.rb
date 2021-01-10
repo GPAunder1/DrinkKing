@@ -4,6 +4,7 @@ require 'roar/decorator'
 require 'roar/json'
 
 require_relative 'review_representer'
+require_relative 'menu_representer'
 
 module DrinkKing
   module Representer
@@ -22,7 +23,8 @@ module DrinkKing
       property :rating
       property :recommend_drink
       property :menu, extend: Representer::Menu, class: OpenStruct
-      collection :reviews, extend: Representer::Review, class: OpenStruct
+      collection :reviews, extend:Representer::Review, class: OpenStruct
+
     end
   end
 end
