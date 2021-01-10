@@ -30,6 +30,10 @@ module DrinkKing
       def shop_menu(shopname)
         @request.shop_menu(shopname)
       end
+
+      def get_promotion
+        @request.get_promotion
+      end
       # HTTP request transmitter
       class Request
         def initialize(config)
@@ -57,6 +61,9 @@ module DrinkKing
           call_api('get', ['menus'], { 'keyword' => shopname, 'searchby' => 'shop' })
         end
 
+        def get_promotion
+          call_api('get', ['promotion'])
+        end
         private
 
         def params_str(params)

@@ -28,8 +28,9 @@ module DrinkKing
         # Get visitor's search_word
         # session[:search_word].clear
         session[:search_word] ||= []
-
-        view 'index', locals: { records: session[:search_word] }
+        promotions = Service::Promotion.new.call
+        display_promotions = Views::ShopsPage.new(promotions.value!)
+        view 'index', locals: { records: session[:search_word], promotions: display_promotions }
       end
 
       routing.on 'shop' do

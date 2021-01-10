@@ -14,6 +14,19 @@
         type='submit' id='repo-form-submit' class='submit' value='submit' class="btn btn-success"
       }Submit
 
+  .row
+    - promotions.each do |promotion|
+      - promotion.posts_each do |post|
+        .col-md-5
+          .card-content
+            .card-img
+              img.card-img-top alt=("Card image cap") src="#{post.img_url}" /
+              .card-body
+                h4.card-title #{promotion.shopname}
+                p.card-text #{post.text}
+              .card-footer
+                small.text-muted #{post.post_time}
+
   .card.text-white.bg-primary.mb-3 style="top:8em; right:0px; position:fixed"
     .card-header 搜尋紀錄
     .card-body id='search_record_card_body'
