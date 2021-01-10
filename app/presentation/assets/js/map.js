@@ -6,16 +6,29 @@ function initmap(){
   // Attach your callback function to the `window` object
   window.initMap = function() {
     map = new google.maps.Map(document.getElementById("map"), {
-      center: { lat: 24.7961217, lng: 120.9966699 },
-      zoom: 15,
+      center: { lat: LATITUDE, lng: LONGITUDE },
+      zoom: 14,
       mapId: "8e25363590309254"
     });
 
-    const marker = new google.maps.Marker({
+    const loc_marker = new google.maps.Marker({
       map,
-      position: { lat: 24.7961217, lng: 120.9966699 },
+      position: { lat: LATITUDE, lng: LONGITUDE },
       animation: google.maps.Animation.DROP,
     });
+
+    // map.addListener("center_changed", () => {
+    //   // 3 seconds after the center of the map has changed, pan back to the marker.
+    //   window.setTimeout(() => {
+    //     map.panTo(loc_marker.getPosition());
+    //   }, 3000);
+    // });
+
+    loc_marker.addListener("click", () => {
+      // map.setZoom(20);
+      map.setCenter(loc_marker.getPosition());
+    });
+
   };
 
   // Append the 'script' element to 'head'
@@ -54,8 +67,47 @@ function create_marker(shop){
     marker.addListener("click", () => {
       make_toast_info(shop);
       $('#toast').toast('show');
-    })
+
+      move_center_by_offset(marker);
+      // map.panTo(marker.getPosition());
+      // map.panBy(200,0);
+      // window.setTimeout(() => {
+      //   map.panTo(marker.getPosition());
+      // }, 3000);
+    });
 }
+
+// set map center by offset
+function move_center_by_offset(marker){
+  map.setZoom(16);
+
+  var span = map.getBounds().toSpan(); // a latLng - # of deg map spans
+  var offsetX = 0.20; // move center left by width percent offset
+  var offsetY = 0; // move center down by height  percent offset
+
+  var newCenter = {
+    lat: marker.getPosition().lat() + span.lat()*offsetY,
+    lng: marker.getPosition().lng() + span.lng()*offsetX
+  };
+
+  map.panTo(newCenter);
+}
+
+function change_map_zoom_and_center(zoom_level){
+  map.setZoom(zoom_level);
+
+  var span = map.getBounds().toSpan(); // a latLng - # of deg map spans
+  var offsetX = -0.20; // move center left by width percent offset
+  var offsetY = 0; // move center down by height  percent offset
+
+  var newCenter = {
+    lat: map.getCenter().lat() + span.lat()*offsetY,
+    lng: map.getCenter().lng() + span.lng()*offsetX
+  };
+
+  map.panTo(newCenter);
+}
+
 
 function json_formatter(string){
   string = string.replace(/&quot;/g, '"');

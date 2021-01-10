@@ -10,7 +10,7 @@ module DrinkKing
     plugin :all_verbs # allows DELETE and other HTTP verbs beyond GET/POST
     plugin :render, engine: 'slim', views: 'app/presentation/views_html/'
     plugin :assets, path: 'app/presentation/assets/',
-                    css: 'style.css', js: ['map.js', 'shop.js']
+                    css: 'style.css', js: ['location.js', 'map.js', 'shop.js']
     plugin :halt
     plugin :unescape_path # decodes a URL-encoded path before routing
 
@@ -38,7 +38,14 @@ module DrinkKing
           # POST /shop/
           routing.post do
             search_word = routing.params['drinking_shop']
-            shops_made = Service::AddShops.new.call(search_keyword: search_word)
+            latitude = routing.params['latitude']
+            longitude = routing.params['longitude']
+
+            shops_made = Service::AddShops.new.call(
+                                                    search_keyword: search_word,
+                                                    latitude: latitude,
+                                                    longitude: longitude
+                                                   )
 
             if shops_made.failure?
               flash[:error] = shops_made.failure
