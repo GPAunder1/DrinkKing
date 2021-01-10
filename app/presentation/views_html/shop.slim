@@ -24,7 +24,7 @@
 - else
   input type='hidden' name='latitude'
   input type='hidden' name='longitude'
-  .container
+  .container-fluid
     .row
       button.btn.btn-outline-primary.active type="button" id="mapbtn" Map
       button.btn.btn-outline-primary type="button" id="listbtn" List
@@ -36,9 +36,10 @@
 
       div.toast.fade.hide id="toast" data-autohide="false"
         .toast-header
-          h4.mr-auto.text-primary.name Shopname
+          h5.mr-auto.text-primary.name Shopname
           / small.text-muted 5 mins ago
-          button.btn.btn-link.mr-auto.text-success id="menubtn" type="button" Menu
+          button.btn.btn-link.mr-auto.text-success id="menubtn" type="button"
+            img src="/menu_icon.svg" style="width:30px;height:30px"
           button.ml-2.mb-1.close data-dismiss="toast" id="closebtn" type="button"  &times;
         .toast-body
             div
@@ -47,14 +48,15 @@
             div
               strong.text-primary Phone Number：
               span.phone_number
-            div
-              strong.text-primary Opening Now？
-              span.opening_now
+            / div
+            /   strong.text-primary Opening Now？
+            /   span.opening_now
             div
               strong.text-primary Rating：
               span.rating
-              button.btn.btn-link.text-success id="reviewbtn" type="button"  Show Reviews
-              / span.show_review  Show Reviews
+              button.btn.btn-link.text-success id="reviewbtn" type="button"
+                img src="/review_icon.svg" style="width:30px;height:30px"
+                / | Show Reviews
             div
               strong.text-danger Recommend Drink：
               span.text-danger.recommend_drink
@@ -86,15 +88,16 @@
 
 
     .row id="listrow"
+      .starrr data-rating='4'
       .table-responsive
         table.table.table-striped id="shop_table"
           thead
-            tr
+            tr.text-primary
               th Name
               th Address
               th Phone Number
-              th Opening Now?
               th Rating
+              th Menu
               th Reviews
             tbody
               - count = 1
@@ -104,10 +107,13 @@
                   td
                     a href="#{shop.map_url}" target="_blank" #{shop.address}
                   td #{shop.phone_number}
-                  td #{shop.opening_now}
                   td #{shop.rating}
                   td
-                    button type="button" class="btn btn-info" data-toggle="collapse" href="#shoplist_reviews_#{count}" id="shoplist_reviews_btn_#{count}" show reviews
+                    button type="button" class="btn" onclick="shop_menu_modal('#{shop.openstruct_to_hash(shop.menu).to_json}')"
+                      img src="/menu_icon.svg" style="width:30px;height:30px"
+                  td
+                    button type="button" class="btn" data-toggle="collapse" href="#shoplist_reviews_#{count}" id="shoplist_reviews_btn_#{count}"
+                      img src="/review_icon.svg" style="width:30px;height:30px"
                 tr id="shoplist_reviews_#{count}" class="collapse" data-parent="#shop_table"
                   td colspan="6"
                     - shop.reviews.each do |review|
@@ -119,3 +125,26 @@
                       div #{review.content}
                       br
                 - count += 1
+
+      .modal.fade id="menu_modal"
+        .modal-dialog.modal-lg.modal-dialog-scrollable
+          .modal-content
+            /! Modal Header
+            .modal-header.text-primary
+              img src='/juice.svg' style="height:auto;width:30px;position:relative"
+              h4.modal-title Modal Heading
+              button.close data-dismiss="modal" type="button"  &times;
+            /! Modal body
+            .modal-body.table_responsive
+              table.table.table-striped
+                thead
+                  tr.text-primary
+                    th Drink
+                    th Price
+                    th
+                    th Drink
+                    th Price
+                tbody id="menu_modal_table_body"
+            /! Modal footer
+            .modal-footer
+              button.btn.btn-info data-dismiss="modal" type="button"  Close
