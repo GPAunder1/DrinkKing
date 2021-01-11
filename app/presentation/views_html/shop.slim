@@ -112,19 +112,10 @@
                     button type="button" class="btn" onclick="shop_menu_modal('#{shop.openstruct_to_hash(shop.menu).to_json}')"
                       img src="/menu_icon.svg" style="width:30px;height:30px"
                   td
-                    button type="button" class="btn" data-toggle="collapse" href="#shoplist_reviews_#{count}" id="shoplist_reviews_btn_#{count}"
+                    / button type="button" class="btn" data-toggle="collapse" href="#shoplist_reviews_#{count}" id="shoplist_reviews_btn_#{count}"
+                    button type="button" class="btn" onclick="shop_review_modal('#{shop.name}', '#{shop.openstruct_array_to_hash_array(shop.openstruct_reviews).to_json}')"
                       img src="/review_icon.svg" style="width:30px;height:30px"
-                tr id="shoplist_reviews_#{count}" class="collapse" data-parent="#shop_table"
-                  td colspan="6"
-                    - shop.reviews.each do |review|
-                      div #{review.author} - #{review.relative_time}
-                      div
-                        - (0..4).each do |i|
-                          - if i < review.rating
-                            span &#9733
-                      div #{review.content}
-                      br
-                - count += 1
+                      / #{shop.openstruct_to_hash_array(shop.reviews).to_json}
 
       .modal.fade id="menu_modal"
         .modal-dialog.modal-lg.modal-dialog-scrollable
@@ -147,4 +138,21 @@
                 tbody id="menu_modal_table_body"
             /! Modal footer
             .modal-footer
-              button.btn.btn-info data-dismiss="modal" type="button"  Close
+              button.btn.btn-primary data-dismiss="modal" type="button"  Close
+
+      .modal.fade id="review_modal"
+        .modal-dialog.modal-lg.modal-dialog-scrollable
+          .modal-content
+            /! Modal Header
+            .modal-header.text-primary
+              img src='/juice.svg' style="height:auto;width:30px;position:relative"
+              h4.modal-title Modal Heading
+              button.close data-dismiss="modal" type="button"  &times;
+            /! Modal body
+            .modal-body
+              div.text-primary id="review_model_author" Review Author
+              div.review_rating Stars
+              div id="review_model_content" Review Content
+            /! Modal footer
+            .modal-footer
+              button.btn.btn-primary data-dismiss="modal" type="button"  Close

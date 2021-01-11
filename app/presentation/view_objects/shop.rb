@@ -47,6 +47,11 @@ module Views
       @shop.reviews.map { |review| Review.new(review) }
     end
 
+    #for taking into javascript
+    def openstruct_reviews
+      @shop.reviews
+    end
+
     def fb_url
       @shop.menu.fb_url
     end
@@ -79,6 +84,13 @@ module Views
         end
       end
       hash
+    end
+
+    def openstruct_array_to_hash_array(objects, hash_array = [])
+      objects.each do |object|
+        hash_array << openstruct_to_hash(object)
+      end
+      hash_array
     end
   end
 end

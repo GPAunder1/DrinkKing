@@ -118,3 +118,20 @@ function shop_menu_modal(menu){
 
   $('#menu_modal').modal('show');
 }
+
+function shop_review_modal(shopname, reviews){
+  var reviews = json_formatter(reviews);
+
+  $('#review_modal .modal-title').text(shopname);
+  $('#review_modal .modal-body').text('');
+
+  reviews.forEach((review, i) => {
+    author = '<div class="text-primary">' + review.author + ' - ' + review.relative_time + '</div>';
+    rating = '<div class="review_rating">' + "&#9733".repeat(review.rating) + '</div>'
+    content ='<div>' + review.content + '</div>';
+    output = author + rating + content + '</br>';
+    $('#review_modal .modal-body').append(output);
+  });
+
+  $('#review_modal').modal('show');
+}
