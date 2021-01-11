@@ -14,18 +14,47 @@
         type='submit' id='repo-form-submit' class='submit' value='submit' class="btn btn-success"
       }Submit
 
+  h2 買一送ㄧ（Buy one get one free）
   .row
-    - promotions.each do |promotion|
+    - promotions_one_free.each do |promotion|
       - promotion.posts_each do |post|
-        .col-md-5
-          .card-content
-            .card-img
-              img.card-img-top alt=("Card image cap") src="#{post.img_url}" /
-              .card-body
-                h4.card-title #{promotion.shopname}
-                p.card-text #{post.text}
-              .card-footer
-                small.text-muted #{post.post_time}
+        .col-md-4.col-sm-6.col-xs-12
+          article.material-card.Red
+            h2
+              span #{promotion.shopname}
+              strong
+                i.fa.fa-fw.fa-magic
+            .mc-content
+              .img-container
+                img.img-responsive src="#{post.img_url}" /
+              .mc-description
+                span #{post.text}
+            a.mc-btn-action
+              i.fa.fa-bars
+              img src="https://www.flaticon.com/svg/static/icons/svg/3165/3165589.svg" width="20"
+            .mc-footer
+              span #{post.post_time}
+
+  h2 新品（New Drink）
+  .row
+    - promotions_new_drink.each do |promotion|
+      - promotion.posts_each do |post|
+        .col-md-4.col-sm-6.col-xs-12
+          article.material-card.Red
+            h2
+              span #{promotion.shopname}
+              strong
+                i.fa.fa-fw.fa-magic
+            .mc-content
+              .img-container
+                img.img-responsive src="#{post.img_url}" /
+              .mc-description
+                span #{post.text}
+            a.mc-btn-action
+              i.fa.fa-bars
+              img src="https://www.flaticon.com/svg/static/icons/svg/3165/3165589.svg" width="20"
+            .mc-footer
+              span #{post.post_time}
 
   .card.text-white.bg-primary.mb-3 style="top:8em; right:0px; position:fixed"
     .card-header 搜尋紀錄

@@ -31,8 +31,8 @@ module DrinkKing
         @request.shop_menu(shopname)
       end
 
-      def get_promotion
-        @request.get_promotion
+      def get_promotion(keyword)
+        @request.get_promotion(keyword)
       end
       # HTTP request transmitter
       class Request
@@ -61,8 +61,8 @@ module DrinkKing
           call_api('get', ['menus'], { 'keyword' => shopname, 'searchby' => 'shop' })
         end
 
-        def get_promotion
-          call_api('get', ['promotion'])
+        def get_promotion(keyword)
+          call_api('get', ['promotion'], {'keyword' => keyword } )
         end
         private
 

@@ -10,7 +10,7 @@ module DrinkKing
     plugin :all_verbs # allows DELETE and other HTTP verbs beyond GET/POST
     plugin :render, engine: 'slim', views: 'app/presentation/views_html/'
     plugin :assets, path: 'app/presentation/assets/',
-                    css: 'style.css', js: ['location.js', 'map.js', 'shop.js']
+                    css: 'style.css', js: ['location.js', 'map.js', 'shop.js', 'main.js']
     plugin :halt
     plugin :unescape_path # decodes a URL-encoded path before routing
 
@@ -28,9 +28,12 @@ module DrinkKing
         # Get visitor's search_word
         # session[:search_word].clear
         session[:search_word] ||= []
-        promotions = Service::Promotion.new.call
-        display_promotions = Views::ShopsPage.new(promotions.value!)
-        view 'index', locals: { records: session[:search_word], promotions: display_promotions }
+        promotions_one_free = Service::Promotion.new.call({ keyword: 'one_free' })
+        display_promotions_one_free = Views::ShopsPage.new(promotions_one_free.value!)
+        promotions_new_drink = Service::Promotion.new.call({ keyword: 'new_drink' })
+        display_promotions_new_drink = Views::ShopsPage.new(promotions_new_drink.value!)
+        view 'index', locals: { records: session[:search_word], promotions_one_free: display_promotions_one_free\
+                              , promotions_new_drink: display_promotions_new_drink }
       end
 
       routing.on 'shop' do
