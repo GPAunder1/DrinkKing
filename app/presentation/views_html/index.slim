@@ -14,7 +14,7 @@
         type='submit' id='repo-form-submit' class='submit' value='submit' class="btn btn-success"
       }Submit
 
-  h2 買一送ㄧ
+  h2 買一送ㄧ（Buy one get one free）
   .row
     - promotions_one_free.each do |promotion|
       - promotion.posts_each do |post|
@@ -35,7 +35,7 @@
             .mc-footer
               span #{post.post_time}
 
-  h2 新品
+  h2 新品（New Drink）
   .row
     - promotions_new_drink.each do |promotion|
       - promotion.posts_each do |post|

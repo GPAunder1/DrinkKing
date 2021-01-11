@@ -1,7 +1,10 @@
+@import url(//fonts.googleapis.com/earlyaccess/notosanstc.css);
+
 html {
   height: 100%;
 }
 body {
+  font-family: Comic Sans MS, Noto Sans TC, sans-serif;
   min-height: 100%;
 }
 #html_header{
@@ -10,10 +13,10 @@ body {
 #html_content{
   height:80vh;
 }
-#html_content > .container{
+#html_content > .container-fluid{
   height:100%;
 }
-#html_content > .container > #maprow{
+#html_content > .container-fluid > #maprow{
   height:100%;
   position:relative;
 }
@@ -35,7 +38,7 @@ body {
 }
 
 .toast-body > div{
-  margin-top: 2%;
+  margin-top: 1%;
   margin-bottom: 2%;
 }
 
@@ -49,8 +52,8 @@ body {
 }
 
 #reviewbtn{
-  float: right;
   padding: 0;
+  margin-left: 3%;
 }
 .card-content {
 	background: #ffffff;
@@ -1268,15 +1271,10 @@ iframe{
 .material-card.Blue-Grey.mc-active .mc-btn-action {
   border-color: #ECEFF1;
 }
-body {
-  background-color: #ECEFF1;
-  color: #37474F;
-  font-family: 'Raleway', sans-serif;
-  font-weight: 300;
-  font-size: 16px;
+.review_rating{
+  color:gold;
 }
-h1,
-h2,
-h3 {
-  font-weight: 200;
+
+#menu_modal_table_body{
+  /* color:skyblue; */
 }

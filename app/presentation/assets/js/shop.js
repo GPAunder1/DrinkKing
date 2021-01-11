@@ -46,14 +46,13 @@ $(document).ready(function(){
   $('#closebtn').on("click", function(){
     change_map_zoom_and_center(14);
   });
-
 });
 
 function make_toast_info(shop){
   $('#toast .name').text(shop.name);
-  $('#toast .address').text(shop.address);
+  $('#toast .address').html(`<a href=${shop.map_url} target="_blank">${shop.address}</a>`);
   $('#toast .phone_number').text(shop.phone_number);
-  $('#toast .opening_now').text(shop.opening_now);
+  // $('#toast .opening_now').text(shop.opening_now);
   $('#toast .rating').text(shop.rating);
   $('#toast .recommend_drink').text(shop.recommend_drink);
   $('#toast .promotion').html(get_shop_page(shop.fb_url));
@@ -72,8 +71,8 @@ function make_review_info(reviews){
   $('#review_info').text("");
 
   reviews.forEach((review, i) => {
-    author = '<div>' + review.author + ' - ' + review.relative_time + '</div>';
-    rating = '<div>' + "&#9733".repeat(review.rating) + '</div>'
+    author = '<div class="text-primary">' + review.author + ' - ' + review.relative_time + '</div>';
+    rating = '<div class="review_rating">' + "&#9733".repeat(review.rating) + '</div>'
     content ='<div>' + review.content + '</div>';
     output = author + rating + content + '</br>';
     $('#review_info').append(output);
@@ -92,4 +91,30 @@ function make_menu_info(menu){
 
     $('#menu_info').append(output);
   });
+}
+
+function shop_menu_modal(menu){
+  var menu = JSON.parse(menu);
+  var shopname = menu.shopname
+  var drinks = menu.drinks
+
+  $('#menu_modal .modal-title').text(shopname);
+  $('#menu_modal_table_body').text('');
+
+  drinks.forEach((drink, i) => {
+    var output = '<td>' + drink.name + '<br/>' + drink.english_name + '</td>' +
+                 // '<td>' + drink.english_name + '</td>' +
+                 '<td>' + drink.price + '</td>';
+
+    if(i % 2 == 0){
+      $('#menu_modal_table_body').append('<tr>');
+      $('#menu_modal_table_body').append(output + '<td></td>');
+    }
+    else{
+      $('#menu_modal_table_body').append(output);
+      $('#menu_modal_table_body').append('</tr>');
+    }
+  });
+
+  $('#menu_modal').modal('show');
 }

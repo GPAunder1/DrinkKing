@@ -8,7 +8,13 @@ function initmap(){
     map = new google.maps.Map(document.getElementById("map"), {
       center: { lat: LATITUDE, lng: LONGITUDE },
       zoom: 14,
-      mapId: "8e25363590309254"
+      mapId: "8e25363590309254",
+      zoomControl: false,
+      mapTypeControl: false,
+      streetViewControl: false,
+      fullscreenControl: false,
+      // scaleControl: false,
+      // rotateControl: false
     });
 
     const loc_marker = new google.maps.Marker({
@@ -54,6 +60,7 @@ function create_marker(shop){
       position: { lat: shop.latitude, lng: shop.longitude},
       icon: icon,
       animation: google.maps.Animation.DROP,
+      collisionBehavior: google.maps.CollisionBehavior.REQUIRED_AND_HIDES_OPTIONAL,
     });
 
     marker.addListener("mouseover" , () => {
@@ -68,13 +75,19 @@ function create_marker(shop){
       make_toast_info(shop);
       $('#toast').toast('show');
 
+      infowindow.open(map, marker);
       move_center_by_offset(marker);
-      // map.panTo(marker.getPosition());
-      // map.panBy(200,0);
-      // window.setTimeout(() => {
-      //   map.panTo(marker.getPosition());
-      // }, 3000);
+      bounce_marker(marker);
     });
+}
+
+//bounce marker for x seconds when click
+function bounce_marker(marker){
+  marker.setAnimation(google.maps.Animation.BOUNCE);
+
+  setTimeout(function(){
+    marker.setAnimation(null);
+  }, 5000);
 }
 
 // set map center by offset
@@ -94,7 +107,6 @@ function move_center_by_offset(marker){
 }
 
 function change_map_zoom_and_center(zoom_level){
-  map.setZoom(zoom_level);
 
   var span = map.getBounds().toSpan(); // a latLng - # of deg map spans
   var offsetX = -0.20; // move center left by width percent offset
@@ -105,6 +117,7 @@ function change_map_zoom_and_center(zoom_level){
     lng: map.getCenter().lng() + span.lng()*offsetX
   };
 
+  map.setZoom(zoom_level);
   map.panTo(newCenter);
 }
 

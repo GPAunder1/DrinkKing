@@ -56,14 +56,15 @@ module Views
     end
 
     def menu
-      @shop.menu.drinks
+      @shop.menu
     end
 
     def format_to_json
-      @shop.fb_url = @shop.menu.fb_url
-      @shop.menu = @shop.menu.drinks
+      shop_to_js = @shop.clone
+      shop_to_js.fb_url = shop_to_js.menu.fb_url
+      shop_to_js.menu = shop_to_js.menu.drinks
 
-      openstruct_to_hash(@shop).to_json
+      openstruct_to_hash(shop_to_js).to_json
     end
 
     def openstruct_to_hash(object, hash = {})
