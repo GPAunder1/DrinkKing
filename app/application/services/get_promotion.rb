@@ -8,8 +8,9 @@ module DrinkKing
       step :get_promotion
       step :reify_list
 
-      def get_promotion
-        DrinkKing::Gateway::Api.new(App.config).get_promotion
+      def get_promotion(input)
+        keyword = input[:keyword]
+        DrinkKing::Gateway::Api.new(App.config).get_promotion(keyword)
           .then do |result|
             result.success? ? Success(JSON.parse(result.body)) : Failure(result.message)
           end
