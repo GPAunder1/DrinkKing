@@ -24,6 +24,8 @@
 - else
   input type='hidden' name='latitude'
   input type='hidden' name='longitude'
+  button.btn type="button" style="position:absolute;right:1%;top:1%" onclick="window.location.href='/'"
+    img src="/back.svg" width=40
   .container-fluid
     .row
       button.btn.btn-outline-primary.active type="button" id="mapbtn" Map
@@ -32,7 +34,7 @@
       .col id="map"
       - shops.each do |shop|
         javascript:
-          setTimeout(function(){ create_marker("#{shop.format_to_json}")}, 1000);
+          setTimeout(function(){ create_marker("#{shop.format_to_json}", "#{search_keyword}")}, 1000);
 
       div.toast.fade.hide id="toast" data-autohide="false"
         .toast-header
@@ -73,7 +75,7 @@
           div.table-responsive
             table.table.table-striped id="shop_table"
               thead
-                tr
+                tr.text-primary
                   th Drink
                   th Price
               tbody id="menu_info"
@@ -109,7 +111,7 @@
                   td #{shop.phone_number}
                   td #{shop.rating}
                   td
-                    button type="button" class="btn" onclick="shop_menu_modal('#{shop.openstruct_to_hash(shop.menu).to_json}')"
+                    button type="button" class="btn" onclick="shop_menu_modal('#{shop.openstruct_to_hash(shop.menu).to_json}', '#{search_keyword}')"
                       img src="/menu_icon.svg" style="width:30px;height:30px"
                   td
                     / button type="button" class="btn" data-toggle="collapse" href="#shoplist_reviews_#{count}" id="shoplist_reviews_btn_#{count}"

@@ -48,17 +48,26 @@ $(document).ready(function(){
   });
 });
 
-function make_toast_info(shop){
+function make_toast_info(shop, search_keyword){
   $('#toast .name').text(shop.name);
   $('#toast .address').html(`<a href=${shop.map_url} target="_blank">${shop.address}</a>`);
   $('#toast .phone_number').text(shop.phone_number);
   // $('#toast .opening_now').text(shop.opening_now);
   $('#toast .rating').text(shop.rating);
-  $('#toast .recommend_drink').text(shop.recommend_drink);
+
+  // hide recommend_drink div if no recommend drink
+  if(shop.recommend_drink == 'no recommend'){
+    $('#toast .recommend_drink').parent().hide();
+  }
+  else{
+    $('#toast .recommend_drink').parent().show();
+    $('#toast .recommend_drink').text(shop.recommend_drink);
+  }
+
   $('#toast .promotion').html(get_shop_page(shop.fb_url));
 
   make_review_info(shop.reviews);
-  make_menu_info(shop.menu);
+  make_menu_info(shop.menu, search_keyword);
 }
 
 function get_shop_page(fb_url){
@@ -79,8 +88,10 @@ function make_review_info(reviews){
   });
 }
 
-function make_menu_info(menu){
+function make_menu_info(menu, search_keyword){
   $('#menu_info').text("");
+
+  var regex = new RegExp(search_keyword, 'i') // for match function
 
   menu.forEach((drink, i) => {
     var output = '<tr>' +
@@ -89,11 +100,17 @@ function make_menu_info(menu){
                  '<td>' + drink.price + '</td>' +
                  '</tr>';
 
+     //highlight drinks for search keyword
+     if(drink.name.match(regex) || drink.english_name.match(regex)){
+       console.log(drink);
+       output = output.replace(/<td>/g, '<td class="text-warning">');
+     }
+
     $('#menu_info').append(output);
   });
 }
 
-function shop_menu_modal(menu){
+function shop_menu_modal(menu, search_keyword){
   var menu = JSON.parse(menu);
   var shopname = menu.shopname
   var drinks = menu.drinks
@@ -101,11 +118,19 @@ function shop_menu_modal(menu){
   $('#menu_modal .modal-title').text(shopname);
   $('#menu_modal_table_body').text('');
 
+  var regex = new RegExp(search_keyword, 'i') // for match function
   drinks.forEach((drink, i) => {
     var output = '<td>' + drink.name + '<br/>' + drink.english_name + '</td>' +
                  // '<td>' + drink.english_name + '</td>' +
                  '<td>' + drink.price + '</td>';
 
+    //highlight drinks for search keyword
+    if(drink.name.match(regex) || drink.english_name.match(regex)){
+      console.log(drink);
+      output = output.replace(/<td>/g, '<td class="text-warning">');
+    }
+
+    // make two drinks in one tr
     if(i % 2 == 0){
       $('#menu_modal_table_body').append('<tr>');
       $('#menu_modal_table_body').append(output + '<td></td>');

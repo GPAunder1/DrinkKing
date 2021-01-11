@@ -30,8 +30,10 @@ module DrinkKing
         session[:search_word] ||= []
         promotions_one_free = Service::Promotion.new.call({ keyword: 'one_free' })
         display_promotions_one_free = Views::ShopsPage.new(promotions_one_free.value!)
+
         promotions_new_drink = Service::Promotion.new.call({ keyword: 'new_drink' })
         display_promotions_new_drink = Views::ShopsPage.new(promotions_new_drink.value!)
+
         view 'index', locals: { records: session[:search_word], promotions_one_free: display_promotions_one_free\
                               , promotions_new_drink: display_promotions_new_drink }
       end
@@ -83,7 +85,7 @@ module DrinkKing
               App.config, result['response']
             )
 
-            view 'shop', locals: { shops: display_shops, processing: processing }
+            view 'shop', locals: { shops: display_shops, processing: processing, search_keyword: search_word}
           end
         end
       end

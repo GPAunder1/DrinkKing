@@ -5,7 +5,7 @@
       input {
         type='text' name='drinking_shop'
         id='drinking_shop_input' class="form-control"
-        placeholder="可不可"
+        placeholder="50嵐, 阿華田, Bubble tea, Red Date Tea, etc..."
       }
       input type='hidden' name='latitude' value='24.7961217'
       input type='hidden' name='longitude' value='120.996669'
@@ -14,7 +14,9 @@
         type='submit' id='repo-form-submit' class='submit' value='submit' class="btn btn-success"
       }Submit
 
-  h2 買一送ㄧ（Buy one get one free）
+  .row
+    img src="/promotion.svg" style="height:50px;max-height:100%"
+    h2.text-primary 買一送一（Buy one, get one free）
   .row
     - promotions_one_free.each do |promotion|
       - promotion.posts_each do |post|
@@ -26,16 +28,19 @@
                 i.fa.fa-fw.fa-magic
             .mc-content
               .img-container
+                span.helper
                 img.img-responsive src="#{post.img_url}" /
               .mc-description
                 span #{post.text}
             a.mc-btn-action
               i.fa.fa-bars
-              img src="https://www.flaticon.com/svg/static/icons/svg/3165/3165589.svg" width="20"
+              img src="/info.svg" style="max-height:100%"
             .mc-footer
               span #{post.post_time}
 
-  h2 新品（New Drink）
+  .row
+    img src="/promotion.svg" style="height:50px;max-height:100%"
+    h2.text-primary 新品（New Drink）
   .row
     - promotions_new_drink.each do |promotion|
       - promotion.posts_each do |post|
@@ -47,18 +52,20 @@
                 i.fa.fa-fw.fa-magic
             .mc-content
               .img-container
+                span.helper
                 img.img-responsive src="#{post.img_url}" /
               .mc-description
                 span #{post.text}
             a.mc-btn-action
               i.fa.fa-bars
-              img src="https://www.flaticon.com/svg/static/icons/svg/3165/3165589.svg" width="20"
+              img src="/info.svg" style="max-height:100%"
             .mc-footer
               span #{post.post_time}
 
-  .card.text-white.bg-primary.mb-3 style="top:8em; right:0px; position:fixed"
-    .card-header 搜尋紀錄
-    .card-body id='search_record_card_body'
+  .card.text-white.mb-3 style="top:8em; right:0px; position:fixed;z-index:50"
+    .card-header.bg-primary
+      | 搜尋紀錄 <br/> Search history
+    .card-body id='search_record_card_body'style="background-color:skyblue"
       - records.each.with_index do |record, index|
           div id="record_#{index}"
             a style="color:white" href='./shop/#{record}' #{record}

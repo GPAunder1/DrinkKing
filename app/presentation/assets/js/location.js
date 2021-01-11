@@ -1,5 +1,7 @@
 navigator.geolocation.getCurrentPosition(function(position) {
-  set_submit_form(position.coords.latitude, position.coords.longitude);
+  latitude = Math.round(position.coords.latitude * 10000000)/10000000;
+  longitude = Math.round(position.coords.longitude * 10000000)/10000000;
+  set_submit_form(latitude, longitude);
 });
 
 function set_submit_form(latitude,longitude){

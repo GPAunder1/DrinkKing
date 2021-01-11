@@ -41,11 +41,11 @@ function initmap(){
   document.head.appendChild(script);
 }
 
-function create_marker(shop){
+function create_marker(shop, search_keyword){
     shop = json_formatter(shop);
     // console.log(shop);
     const icon = {
-      url: "https://www.flaticon.com/svg/static/icons/svg/3106/3106180.svg",
+      url: "/juice_2.svg",
       scaledSize: new google.maps.Size(30, 30),
       origin: new google.maps.Point(0,0), // origin
       // anchor: new google.maps.Point(0, 0) // anchor
@@ -72,7 +72,7 @@ function create_marker(shop){
     });
 
     marker.addListener("click", () => {
-      make_toast_info(shop);
+      make_toast_info(shop, search_keyword);
       $('#toast').toast('show');
 
       infowindow.open(map, marker);
