@@ -6,13 +6,14 @@ describe 'ListShops Service and API gateway Integration Test' do
 
   it 'must return a list of shops' do
     # GIVEN: a shop is in the database
-    DrinkKing::Gateway::Api.new(DrinkKing::App.config).add_shops(KEYWORD)
+    DrinkKing::Gateway::Api.new(DrinkKing::App.config).add_shops(KEYWORD, LATITUDE, LONGITUDE)
 
     # WHEN: we request to get list of shops
     result = DrinkKing::Service::ListShops.new.call(search_keyword: KEYWORD)
 
     # THEN: we should see shops in the list
     _(result.success?).must_equal true
+
     shop = result.value!['shops'].shops[0]
     _(shop.name).must_equal KEYWORD
     _(shop.name).must_include shop.menu.shopname

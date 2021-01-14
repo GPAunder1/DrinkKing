@@ -10,7 +10,7 @@ describe 'Unit test of DrinkKing API gateway' do
 
   it 'must be able to add shops' do
     result = DrinkKing::Gateway::Api.new(DrinkKing::App.config)
-                                    .add_shops(KEYWORD)
+                                    .add_shops(KEYWORD, LATITUDE, LONGITUDE)
 
     _(result.success?).must_equal true
     _(result.parse.keys.count).must_be :>=, 1
@@ -18,7 +18,7 @@ describe 'Unit test of DrinkKing API gateway' do
 
   it 'must return a list of shops' do
     # GIVEN: a shop is in the database
-    DrinkKing::Gateway::Api.new(DrinkKing::App.config).add_shops(KEYWORD)
+    DrinkKing::Gateway::Api.new(DrinkKing::App.config).add_shops(KEYWORD, LATITUDE, LONGITUDE)
 
     # WHEN: we request a list of shops
     result = DrinkKing::Gateway::Api.new(DrinkKing::App.config).list_shops(KEYWORD)
@@ -50,6 +50,6 @@ describe 'Unit test of DrinkKing API gateway' do
     _(result.success?).must_equal true
 
     data = result.parse
-    _(data).must_equal RECOMMEND_DRINK
+    _(data['message']).must_equal RECOMMEND_DRINK
   end
 end

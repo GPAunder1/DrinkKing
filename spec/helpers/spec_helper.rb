@@ -18,6 +18,8 @@ KEYWORD = '可不可熟成紅茶'
 SHOPID = 'ChIJj-JB7XI2aDQReyt7-6gXNXk'
 RECOMMEND_DRINK = '胭脂多多'
 TOKEN = DrinkKing::App.config.API_TOKEN
+LATITUDE = '24.7961217'
+LONGITUDE = '120.996669'
 # CORRECT = YAML.load(File.read('spec/fixtures/googlemap_results.yml'))
 
 # Helper methods
