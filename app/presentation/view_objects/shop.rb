@@ -47,17 +47,29 @@ module Views
       @shop.reviews.map { |review| Review.new(review) }
     end
 
+    #for taking into javascript
+    def openstruct_reviews
+      @shop.reviews
+    end
+
+    def fb_url
+      @shop.menu.fb_url
+    end
+
     def recommend_drink
       @shop.recommend_drink
     end
 
     def menu
-      @shop.menu.drinks
+      @shop.menu
     end
 
     def format_to_json
-      @shop.menu = @shop.menu.drinks
-      openstruct_to_hash(@shop).to_json
+      shop_to_js = @shop.clone
+      shop_to_js.fb_url = shop_to_js.menu.fb_url
+      shop_to_js.menu = shop_to_js.menu.drinks
+
+      openstruct_to_hash(shop_to_js).to_json
     end
 
     def openstruct_to_hash(object, hash = {})
@@ -67,10 +79,18 @@ module Views
         elsif value.is_a? Array
           hash[key] = value.map { |v| openstruct_to_hash(v) }
         else
+          value.gsub!('"', '“') if value.to_s.include? '"' # avoid javascript error
           hash[key] = value
         end
       end
       hash
+    end
+
+    def openstruct_array_to_hash_array(objects, hash_array = [])
+      objects.each do |object|
+        hash_array << openstruct_to_hash(object)
+      end
+      hash_array
     end
   end
 end

@@ -19,8 +19,8 @@ module DrinkKing
         @request.list_shops(shopname)
       end
 
-      def add_shops(shopname)
-        @request.add_shops(shopname)
+      def add_shops(shopname, latitude, longitude)
+        @request.add_shops(shopname, latitude, longitude)
       end
 
       def recommend_drink(shop_id)
@@ -29,6 +29,10 @@ module DrinkKing
 
       def shop_menu(shopname)
         @request.shop_menu(shopname)
+      end
+
+      def get_promotion(keyword)
+        @request.get_promotion(keyword)
       end
       # HTTP request transmitter
       class Request
@@ -45,8 +49,8 @@ module DrinkKing
           call_api('get', ['shops'], { 'keyword' => shopname })
         end
 
-        def add_shops(shopname)
-          call_api('post', ['shops', shopname])
+        def add_shops(shopname, latitude, longitude)
+          call_api('post', ['shops', shopname], { 'latitude' => latitude, 'longitude'=> longitude })
         end
 
         def recommend_drink(shop_id)
@@ -57,6 +61,9 @@ module DrinkKing
           call_api('get', ['menus'], { 'keyword' => shopname, 'searchby' => 'shop' })
         end
 
+        def get_promotion(keyword)
+          call_api('get', ['promotion'], {'keyword' => keyword } )
+        end
         private
 
         def params_str(params)
